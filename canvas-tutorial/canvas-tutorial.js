@@ -138,5 +138,5 @@ function init() {
         ctx.fill();
         x += 0.5;
     }
-    setInterval(draw, 1000 / 60);
+    // setInterval(draw, 1000 / 60);
 }
