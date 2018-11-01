@@ -4,17 +4,45 @@ function init() {
     var canvas = document.getElementById("game");
     var ctx = canvas.getContext('2d');
 
-    //заведем параметры анимации
-    //x = ...
-    //y = ...
-    //r = ...
+    var alpha = 0;
+
+    function draw_stick(r) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, r);
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function draw_sticks_in_circle(r) {
+        ctx.save();
+        for (var i = 0; i < 12; i++) {
+            draw_stick(r);
+            ctx.rotate( Math.PI / 6);
+        }
+        ctx.restore();
+    }
+
+    function draw_rope(L) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, L);
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function draw_paddle(R) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, R);
+        ctx.stroke();
+        ctx.restore();
+    }
 
     function draw() {
-        //здесь перерисовывается содержимое экрана
-        //используем значение параметров анимации
-        //
-        //ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //это полная очистка canvas
     }
 
     function update_animation_parameters() {
@@ -36,6 +64,9 @@ function init() {
         draw();
     }
 
-    requestAnimationFrame(animation_step);
+    ctx.translate(320, 180);
+    draw_sticks_in_circle(30);
 
+
+    requestAnimationFrame(animation_step);
 }

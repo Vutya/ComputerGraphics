@@ -25,7 +25,7 @@ function init() {
     */
     function get_time() {
         // return Date.now();
-        return new Date().getTime();
+        return new Date().getTime() / 1000;
     }
     // Она возвращает количество миллисекунд, прошедших с начала эпохи Unix (01.06.1970)
     /*
@@ -72,7 +72,7 @@ function init() {
         }
     }
 
-    function update_animation_parameters(elapsed_time_sec) {
+    function update_animation_parameters(elapsed_time) {
         //здесь обновляем значение всех анимируемых параметров
         //допустим, скорость изменения x - это SPEED_x.
         //для определенности SPEED_x = 10 пикселей в секунду
@@ -96,10 +96,13 @@ function init() {
         requestAnimationFrame(animation_step); // сразу просим повторить ещё раз
 
         var current_time = get_time();
-        var elapsed_time_sec = current_time - last_redraw_time;
+        var elapsed_time = current_time - last_redraw_time;
         last_redraw_time = current_time;
 
-        update_animation_parameters(elapsed_time_sec / 1000);
+        if(elapsed_time > 1)
+            elapsed_time = 0;
+
+        update_animation_parameters(elapsed_time);
         draw();
     }
 
