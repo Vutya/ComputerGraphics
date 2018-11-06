@@ -96,13 +96,13 @@ function init() {
         requestAnimationFrame(animation_step); // сразу просим повторить ещё раз
 
         var current_time = get_time();
-        var elapsed_time = current_time - last_redraw_time;
+        var elapsed_time = current_time - last_redraw_time; //высчитывает, сколько прошло милисек
         last_redraw_time = current_time;
 
-        if(elapsed_time > 1)
-            elapsed_time = 0;
+        if (elapsed_time > 1) //если нас не было на странице больше 100 милисек,
+            elapsed_time = 0; //то будет считать, что нас не было ровно 100 милисек
 
-        update_animation_parameters(elapsed_time);
+        update_animation_parameters(elapsed_time); //отправляем прошедшее время в сек
         draw();
     }
 

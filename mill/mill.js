@@ -5,6 +5,16 @@ function init() {
     var ctx = canvas.getContext('2d');
 
     var alpha = 0;
+    const r = 25;
+    const L = 90;
+    const R = 130;
+    const APS = 10;
+
+    function get_time() {
+        return new Date().getTime() / 1000;
+    }
+
+    var last_redraw_time = get_time();
 
     function draw_stick(r) {
         ctx.save();
@@ -19,7 +29,7 @@ function init() {
         ctx.save();
         for (var i = 0; i < 12; i++) {
             draw_stick(r);
-            ctx.rotate( Math.PI / 6);
+            ctx.rotate(Math.PI / 6);
         }
         ctx.restore();
     }
@@ -43,30 +53,43 @@ function init() {
     }
 
     function draw() {
+        ctx.save();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.translate(320, 200);
+
+        for (var i = 0; i < 12; i++) {
+            ctx.save();
+            ctx.rotate(alpha + i * 2 * Math.PI / 12);
+            draw_paddle(R);
+            ctx.translate(0, R);
+            ctx.rotate(-(alpha + i * 2 * Math.PI / 12));
+            draw_rope(L);
+            ctx.translate(0, L);
+            ctx.rotate(10 * alpha);
+            draw_sticks_in_circle(r);
+            ctx.restore();
+        }
+        ctx.restore();
     }
 
-    function update_animation_parameters() {
-        //здесь обновляем значение всех анимируемых параметров
-
-        //простейшее обновление - это изменение на
-        //фиксированную величину:
-        //x += 0.1 // сдвигаем на 0.1 пикселя
-
-        //как сделать равномерное изменение параметра
-        //см. далее
+    function update_animation_parameters(elapsed_time) {
+        alpha += (APS * Math.PI / 180) * elapsed_time;
     }
 
     function animation_step() {
-        //эта функция должна постоянно вызываться
-        requestAnimationFrame(animation_step); // сразу просим повторить
+        requestAnimationFrame(animation_step);
 
-        update_animation_parameters();
+        var current_time = get_time();
+        var elapsed_time = current_time - last_redraw_time;
+        last_redraw_time = current_time;
+
+        if(elapsed_time > 1)
+            elapsed_time = 0;
+
+        update_animation_parameters(elapsed_time);
         draw();
     }
-
-    ctx.translate(320, 180);
-    draw_sticks_in_circle(30);
-
 
     requestAnimationFrame(animation_step);
 }
