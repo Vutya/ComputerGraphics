@@ -1,0 +1,14 @@
+Node.js
+
+В PowerShell в папке с проектом пробуем node
+
+Потом попробуем npm init, будет создан json
+
+Можно запускать скрипты командой node index.js
+
+npm install webpack --save-dev  - установка webpack
+В package.json появится запись о webpack
+
+node .\node_modules\webpack\bin\webpack.js  - компилировать код
+
+Добавив watch и build мы сразу перекомпилируем файлы при запуске npm run watch
